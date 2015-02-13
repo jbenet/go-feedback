@@ -35,6 +35,32 @@ func main() {
 }
 ```
 
+Options:
+
+```go
+type Options struct {
+  NameSkip     bool
+  NamePrompt   string
+  NameRequired bool
+
+  EmailSkip     bool
+  EmailPrompt   string
+  EmailRequired bool
+
+  MessageSkip     bool
+  MessagePrompt   string
+  MessageRequired bool
+
+  Questions         []string
+  QuestionsRequired []bool
+
+  ScoreSkip     bool
+  ScorePrompt   string
+  ScoreRequired bool
+  ScoreFaces    bool
+}
+```
+
 ### cli
 
 Client
