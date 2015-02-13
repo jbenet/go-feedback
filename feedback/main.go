@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"io"
 	"log"
 	"os"
 
@@ -26,7 +25,7 @@ func main() {
 func run() error {
 	flag.Parse()
 
-	rw := NewReadWriter(os.Stdin, os.Stdout)
+	rw := feedback.NewReadWriter(os.Stdin, os.Stderr)
 
 	f, err := feedback.PromptForFeedback(rw, feedback.Options{})
 	if err != nil {
@@ -44,13 +43,4 @@ func run() error {
 
 	_, err = os.Stdout.Write(buf)
 	return err
-}
-
-type readWriter struct {
-	io.Reader
-	io.Writer
-}
-
-func NewReadWriter(r io.Reader, w io.Writer) io.ReadWriter {
-	return &readWriter{r, w}
 }
