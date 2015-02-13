@@ -1,13 +1,21 @@
 package main
 
 import (
-	"encoding/json"
+	"flag"
 	"io"
 	"log"
 	"os"
 
 	feedback "github.com/jbenet/go-feedback"
 )
+
+var (
+	flagURL string
+)
+
+func init() {
+	flag.StringVar(&flagURL, "post", "", "POST results to given URL")
+}
 
 func main() {
 	if err := run(); err != nil {
@@ -16,6 +24,8 @@ func main() {
 }
 
 func run() error {
+	flag.Parse()
+
 	rw := NewReadWriter(os.Stdin, os.Stdout)
 
 	f, err := feedback.PromptForFeedback(rw, feedback.Options{})
@@ -23,7 +33,11 @@ func run() error {
 		return err
 	}
 
-	buf, err := json.Marshal(&f)
+	if flagURL != "" {
+		return feedback.PostFeedback(f, flagURL)
+	}
+
+	buf, err := feedback.Marshal(f)
 	if err != nil {
 		return err
 	}
